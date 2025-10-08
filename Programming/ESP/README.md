@@ -11,11 +11,11 @@
 ## PlatformIO
 
 1. Install Extension PlatformIO IDE
-   ![Extensi PlatformIO](./Resource/image.png)
+   ![Extensi PlatformIO](./assets/image.png)
 
 2. Buat Project Arduino
 
-   ![Pembuatan Project](./Resource/image-1.png)
+   ![Pembuatan Project](./assets/image-1.png)
 
    - Pilih "Create New Project".
    - Pilih "New Project"
