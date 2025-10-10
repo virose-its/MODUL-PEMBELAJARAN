@@ -132,6 +132,8 @@ ESP-NOW merupakan sebuah protokol komunikasi khusus ESP yang simpel, tidak memer
 
 Contoh program sederhana ESP-NOW :
 
+[Contoh Simple untuk implementasi](https://randomnerdtutorials.com/esp-now-esp32-arduino-ide/)
+
 ```cpp
 #include <Arduino.h>
 #include <esp_now.h>
