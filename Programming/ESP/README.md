@@ -2,11 +2,13 @@
 
 ## Materi Pembelajaran
 
-- PlatformIO
-- Dasar Framework Arduino
-- ESP-NOW
-- EEPROM Flash
-- Simulasi Wokwi
+- [PlatformIO](#platformio)
+- [Dasar Framework Arduino](#dasar-framework-arduino)
+- [ESP-NOW](#esp-now)
+- [Protokol Komunikasi](#protokol-komunikasi)
+- [EEPROM Flash](#eeprom-flash)
+- [Simulasi Wokwi](#simulasi-wokwi)
+- [ArduinoJSON](#json)
 
 ## PlatformIO
 
@@ -235,11 +237,41 @@ Penjelasan :
 - `esp_now_register_recv_cb()` merupakan fungsi yang me-register fungsi callback (fungsi yang akan dipanggil dalam keadaan tertentu) ketika ESP mengirim data melalui ESP-NOW.
 - `esp_now_send(const uint8_t *peer_addr, const uint8_t *data, size_t len)` merupakan fungsi untuk mengirim `data` dengan jumlah data sepanjang `len` kepada perangkat lain yang memiliki identitas MAC address `*peer_addr`.
 
-## EEPROM Flash
+## Protokol Komunikasi
+
+Protokol komunikasi adalah aturan dan standar yang digunakan untuk mengatur pertukaran data antara perangkat dalam sebuah jaringan. Protokol ini memastikan bahwa data dapat dikirim dan diterima dengan benar, efisien, dan aman. - (Summary oleh ChatGPT lagi cik sori)
+
+Contoh Protokol Komunikasi:
+
+- HTTP (Hypertext Transfer Protocol)
+- MQTT (Message Queuing Telemetry Transport)
+- TCP/IP (Transmission Control Protocol/Internet Protocol)
+- UDP (User Datagram Protocol)
+
+Protokol komunikasi itu isinya cara berkomunikasi dari dua atau lebih endpoint(atau perangkat) dalam jaringan.
+
+Contoh protokol komunikasi UDP():
+![UDP](./assets/udp.png)
+UDP Bekerja dengan cara mengirimkan paket berdasarkan alamat ip dan port tujuan tanpa perlu membuat koneksi antar endpoint.
+
+Apa yang yang ada didalem UDP?????
+![Struktur Paket UDP](./assets/UDP_PS.png)
+Jadi didalem protokol komunikasi itu ngedefinisiin gimana caranya komunikasi itu dilakuin. kalo dijelasin udp agak repot jadi kita contohin yang lebih simple aja.
+
+#### Contoh protokol komunikasi simple>:
 
 EEPROM merupakan suatu sistem memori pada ESP dimana memori tidak akan terhapus ketika ESP dimatikan. Biasa digunakan untuk konfigurasi dan data penting. EEPROM memiliki default size 512 bytes yang dapat di konfigurasi.
 
 Contoh program yang menggunakan EEPROM :
+![Protokol Simple](./assets/simple_protocol.png)
+Penjelasannya:
+
+- HEADER : 4 byte, menandakan awal dari paket data
+- TUJUAN : 3 byte, alamat MAC tujuan
+- LENGTH : 1 byte, panjang data
+- DATA : n byte, data yang akan dikirim
+
+## EEPROM Flash
 
 ```cpp
 #include <Arduino.h>
@@ -387,3 +419,17 @@ void loop() {
 ```
 
 ## Simulasi Wokwi
+
+Wokwi adalah sebuah platform simulasi online untuk mikrokontroler seperti Arduino dan ESP32. Wokwi memungkinkan pengguna untuk membuat, menguji, dan berbagi proyek mikrokontroler tanpa perlu perangkat keras fisik. - [Wokwi ESP32](https://wokwi.com/arduino/new?board=esp32dev "Wokwi ESP32") (Summary oleh ChatGPT)
+
+#### Liat disini yah....
+
+Wiki wokwi(ESP32) : [Wokwi ESP32 Wiki](https://docs.wokwi.com/boards/esp32 "Wokwi ESP32 Wiki")
+
+Simulasi Wokwi(ESP32) : [Wokwi ESP32 Simulator](https://wokwi.com/esp32 "Wokwi ESP32 Simulator")
+
+Setup Wokwi Vscode(ESP32): [Setup Wokwi Vscode](https://docs.wokwi.com/vscode/getting-started "Setup Wokwi Vscode")
+
+## JSON
+
+_TBA ndak sempat bikin nanti tak tambahin yah_
