@@ -4,11 +4,13 @@
 
 - [PlatformIO](#platformio)
 - [Dasar Framework Arduino](#dasar-framework-arduino)
+- [Serial](#serial)
 - [ESP-NOW](#esp-now)
 - [Protokol Komunikasi](#protokol-komunikasi)
-- [EEPROM Flash](#eeprom-flash)
-- [Simulasi Wokwi](#simulasi-wokwi)
+- [EEPROM](#eeprom-flash)
+- [SPIFFS](#spiffs)
 - [ArduinoJSON](#json)
+- [Simulasi Wokwi](#simulasi-wokwi)
 
 ## PlatformIO
 
@@ -125,6 +127,8 @@ void loop() {
   delay(50);
 }
 ```
+
+## Serial
 
 ## ESP-NOW
 
@@ -420,6 +424,14 @@ void loop() {
 }
 ```
 
+## SPIFFS
+
+_TBA ndak sempat bikin nanti tak tambahin yah_
+
+## JSON
+
+_TBA ndak sempat bikin nanti tak tambahin yah_
+
 ## Simulasi Wokwi
 
 Wokwi adalah sebuah platform simulasi online untuk mikrokontroler seperti Arduino dan ESP32. Wokwi memungkinkan pengguna untuk membuat, menguji, dan berbagi proyek mikrokontroler tanpa perlu perangkat keras fisik. - [Wokwi ESP32](https://wokwi.com/arduino/new?board=esp32dev "Wokwi ESP32") (Summary oleh ChatGPT)
@@ -431,7 +443,3 @@ Wiki wokwi(ESP32) : [Wokwi ESP32 Wiki](https://docs.wokwi.com/boards/esp32 "Wokw
 Simulasi Wokwi(ESP32) : [Wokwi ESP32 Simulator](https://wokwi.com/esp32 "Wokwi ESP32 Simulator")
 
 Setup Wokwi Vscode(ESP32): [Setup Wokwi Vscode](https://docs.wokwi.com/vscode/getting-started "Setup Wokwi Vscode")
-
-## JSON
-
-_TBA ndak sempat bikin nanti tak tambahin yah_
