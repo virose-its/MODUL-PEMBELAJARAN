@@ -130,118 +130,53 @@ void loop() {
 
 ## Serial
 
+Serial atau serialbus adalah protokol komunikasi yang digunakan untuk pengiriman data dengan menggunkan 2 jalur buffer yaitu jalur transmitter dan receiver untuk pengiriman data.
+
+Contoh program serial sederhana:
+https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/32e7c0fb1b54d5ccaf6c07fe04cb6b7bf89fae37/Programming/ESP/example/SERIAL/src/main.cpp#L1-L38
+
+Penjelasan:
+Program diatas membuka serial pada port default yang mana dibuka pada konektor usb pada ESP32 dengan baudrate 115200.
+
+Jadi kalo kalian ngirim sesuatu dari Serial Monitor bakal diterima di ESPnya.
+
+Diatas jika ada data pada buffer receiver serial maka program bakal baca data itu dan tergantung gimana cara kamu prosesnya.
+
+contoh diatas itu juga termasuk filtering data dimana esp bakal cuma nerima data yang dimulai dengan nilai hexadesimal FF FD 00
+
+jika dijabarin program diatas bakal cuma nerima data dengan struktur seperti ini:
+
+| HEADER | PANJANG DATA | DATA   |
+| ------ | ------------ | ------ |
+| 3 byte | 1 byte       | n byte |
+
+Contoh data yang sesuai dengan format diatas adalah:
+| HEADER | PANJANG DATA | DATA |
+|--------------|--------------|---------------|
+| FF FD 00 | 05 | Hello |
+
 ## ESP-NOW
 
 ESP-NOW merupakan sebuah protokol komunikasi khusus ESP yang simpel, tidak memerlukan handshake atau koneksi formal.
 
+[Referensi pembelajaran](https://randomnerdtutorials.com/esp-now-esp32-arduino-ide/) - RandomNerdTutorials
+
 Contoh program sederhana ESP-NOW :
+https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/32e7c0fb1b54d5ccaf6c07fe04cb6b7bf89fae37/Programming/ESP/example/ESP-NOW/src/main.cpp#L1-L106
 
-[Contoh Simple untuk implementasi](https://randomnerdtutorials.com/esp-now-esp32-arduino-ide/)
+Program diatas merupakan contoh program ESP-NOW yang mengirim data simple berupa nilai integer 1,2,3,4,5 ke perangkat lain dengan MAC address tertentu.
 
-```cpp
-#include <Arduino.h>
-#include <esp_now.h>
-#include <esp_wifi.h>
-#include <WiFi.h>
-
-#define MAC_LENGTH 6
-#define MAC_ADDRESS_TOTAL 12
-
-
-uint8_t mac_addresses[MAC_ADDRESS_TOTAL][MAC_LENGTH] = {
-    {0x24, 0x0A, 0xC5, 0x0A, 0x1A, 0x11},
-    {0x24, 0x0A, 0xC5, 0x0A, 0x1B, 0x11},
-    {0x24, 0x0A, 0xC5, 0x0A, 0x2A, 0x11},
-    {0x24, 0x0A, 0xC5, 0x0A, 0x2B, 0x11},
-    {0x24, 0x0A, 0xC5, 0x0A, 0x3A, 0x11},
-    {0x24, 0x0A, 0xC5, 0x0A, 0x3A, 0x22},
-    {0x24, 0x0A, 0xC5, 0x0A, 0x3B, 0x11},
-    {0x24, 0x0A, 0xC5, 0x0A, 0x3B, 0x22},
-    {0x24, 0x0A, 0xC5, 0x0A, 0xFF, 0xF1},
-    {0x24, 0x0A, 0xC5, 0x0A, 0xFF, 0xF2},
-    {0x24, 0x0A, 0xC5, 0x0A, 0xFF, 0xF3},
-    {0x24, 0x0A, 0xC5, 0x0A, 0xFF, 0xF4},
-};
-
-void on_data_sent_cb(const uint8_t *mac, esp_now_send_status_t status) {
-    if (status == ESP_NOW_SEND_SUCCESS) {
-        Serial.println("Data sent successfully");
-    } else {
-        Serial.println("Data sent failed");
-    }
-}
-
-void on_data_recv_cb(const uint8_t *mac, const uint8_t *data, int len) {
-    for(int i = 0; i < len; i++) {
-        Serial.printf("% ", data[i]);
-    }
-}
-
-esp_now_peer_info_t peer_info;
-
-esp_err_t setup_esp_now(uint8_t mac_index) {
-    esp_err_t result;
-
-    /* Init WiFi to Station Mode and disconnect from any AP */
-    WiFi.mode(WIFI_STA);
-    WiFi.disconnect();
-
-    /* Init ESP-NOW */
-    result = esp_now_init();
-    if (result != ESP_OK)
-        return result;
-
-    /* Set callback function to handle received data */
-    result = esp_now_register_recv_cb(on_data_recv_cb);
-    if (result != ESP_OK)
-        return result;
-
-    /* Set callback function to handle send data */
-    result = esp_now_register_send_cb(on_data_sent_cb);
-    if (result != ESP_OK)
-        return result;
-
-    /* Set MAC Address */
-    uint8_t mac[MAC_LENGTH];
-    memcpy(mac, mac_addresses[mac_index], MAC_LENGTH);
-    result = esp_wifi_set_mac(WIFI_IF_STA, mac);
-    if (result != ESP_OK)
-        return result;
-
-    /* Initialize peer_info and set fields*/
-    memset(&peer_info, 0, sizeof(esp_now_peer_info_t));
-    peer_info.channel = 0;
-    peer_info.encrypt = false;
-
-    /* Add All MAC to peer list  */
-    for (int i = 0; i < MAC_ADDRESS_TOTAL; i++) {
-        memcpy(peer_info.peer_addr, mac_addresses[i], MAC_LENGTH);
-        result = esp_now_add_peer(&peer_info);
-        if (result != ESP_OK)
-            return result;
-    }
-
-    return ESP_OK;
-}
-
-void setup() {
-    Serial.begin(115200);
-    pinMode(LED_BUILTIN, OUTPUT);
-    digitalWrite(LED_BUILTIN, LOW);
-    setup_esp_now(6);
-
-    char data[]= "Hallo";
-    esp_now_send(mac_addresses[0], (uint8_t*)data, sizeof(data));
-}
-void loop() {
-}
-```
+https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/32e7c0fb1b54d5ccaf6c07fe04cb6b7bf89fae37/Programming/ESP/example/ESP-NOW/src/main.cpp#L1-L106
+Pada program diatas juga dikasih contoh practice kita untuk pemakaian ESP-NOW. dengan menyimpan nilai mac_address(HardCoded) untuk memudahkan pemakaian ESP-NOW.
 
 Penjelasan :
 
-- `esp_now_register_recv_cb()` merupakan fungsi yang me-register fungsi callback (fungsi yang akan dipanggil dalam keadaan tertentu) ketika ESP menerima data melalui ESP-NOW.
-- `esp_now_register_recv_cb()` merupakan fungsi yang me-register fungsi callback (fungsi yang akan dipanggil dalam keadaan tertentu) ketika ESP mengirim data melalui ESP-NOW.
-- `esp_now_send(const uint8_t *peer_addr, const uint8_t *data, size_t len)` merupakan fungsi untuk mengirim `data` dengan jumlah data sepanjang `len` kepada perangkat lain yang memiliki identitas MAC address `*peer_addr`.
+- `esp_now_register_recv_cb()` merupakan fungsi yang me-register fungsi callback (fungsi yang akan dipanggil dalam keadaan tertentu) ketika ESP menerima data melalui ESP-NOW, pada contoh program fungsi callback yang diregister adalah:
+  https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/32e7c0fb1b54d5ccaf6c07fe04cb6b7bf89fae37/Programming/ESP/example/ESP-NOW/src/main.cpp#L36-L43
+- `esp_now_register_send_cb()` merupakan fungsi yang me-register fungsi callback (fungsi yang akan dipanggil dalam keadaan tertentu) ketika ESP mengirim data melalui ESP-NOW.
+  https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/32e7c0fb1b54d5ccaf6c07fe04cb6b7bf89fae37/Programming/ESP/example/ESP-NOW/src/main.cpp#L45-L48
+- `esp_now_send(const uint8_t *peer_addr, const uint8_t *data, size_t len)` merupakan fungsi untuk mengirim `data` dengan jumlah data sepanjang `len` kepada perangkat lain yang memiliki identitas MAC address `*peer_addr`. Contoh pemakaian:
+  https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/32e7c0fb1b54d5ccaf6c07fe04cb6b7bf89fae37/Programming/ESP/example/ESP-NOW/src/main.cpp#L100-L102
 
 ## Protokol Komunikasi
 
