@@ -56,3 +56,11 @@ Perintah CEK:
 Perintah JAWAB:
 
 - Perintah JAWAB cuma menerima dari ESP-NOW, cetak ke Serial Monitor String yang diterima".
+
+## Keterangan
+#### Pembagian MAC_ADDRESS Pake aja namanya
+https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/206a0e37ef614928b82e5d92ff3f648a5731d0fe/Programming/PENUGASAN/TASK-3%20Sapa%20Menyapa%20ESP-NOW/TEMPLATE%20TASK-3%20Sapa%20Menyapa/src/main.h#L15-L28
+https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/206a0e37ef614928b82e5d92ff3f648a5731d0fe/Programming/PENUGASAN/TASK-3%20Sapa%20Menyapa%20ESP-NOW/TEMPLATE%20TASK-3%20Sapa%20Menyapa/src/utility.cpp#L5-L34
+
+#### Enum Perintah
+https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/206a0e37ef614928b82e5d92ff3f648a5731d0fe/Programming/PENUGASAN/TASK-3%20Sapa%20Menyapa%20ESP-NOW/TEMPLATE%20TASK-3%20Sapa%20Menyapa/src/main.h#L30-L34
