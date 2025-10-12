@@ -201,9 +201,6 @@ Jadi didalem protokol komunikasi itu ngedefinisiin gimana caranya komunikasi itu
 
 #### Contoh protokol komunikasi simple>:
 
-EEPROM merupakan suatu sistem memori pada ESP dimana memori tidak akan terhapus ketika ESP dimatikan. Biasa digunakan untuk konfigurasi dan data penting. EEPROM memiliki default size 512 bytes yang dapat di konfigurasi.
-
-Contoh program yang menggunakan EEPROM :
 ![Protokol Simple](./assets/simple_protocol.png)
 Penjelasannya:
 
@@ -212,7 +209,11 @@ Penjelasannya:
 - LENGTH : 1 byte, panjang data
 - DATA : n byte, data yang akan dikirim
 
-## EEPROM Flash
+## EEPROM
+
+EEPROM merupakan suatu sistem memori pada ESP dimana memori tidak akan terhapus ketika ESP dimatikan. Biasa digunakan untuk konfigurasi dan data penting. EEPROM memiliki default size 512 bytes yang dapat di konfigurasi.
+
+Contoh penggunaan EEPROM simple :
 
 ```cpp
 #include <Arduino.h>
@@ -220,152 +221,77 @@ Penjelasannya:
 
 #define EEPROM_SIZE 128
 
+#define LED_PIN 2
+
+const int ADDRESS_PANJANG_NAMA = 0;
+const int ADDRESS_NAMA = 1;
+int PANJANG_NAMA = 5;
+char namaku[5] = "BISMA";
+
+const byte pin_button = 0;
 void setup() {
     Serial.begin(115200);
+    // Inisialisasi EEPROM
     EEPROM.begin(EEPROM_SIZE);
+
+    // Menulis nilai ke memmory EEPROM
+    EEPROM.writeByte(ADDRESS_PANJANG_NAMA, PANJANG_NAMA);
+    for (int i = 0; i < PANJANG_NAMA; i++) {
+        EEPROM.writeByte(ADDRESS_NAMA + i, namaku[i]);
+    }
+
+    // Membaca memmory EEPROM
+    Serial.printf("Membaca nilai EEPROM pada alamat [%d] hingga [%d]", ADDRESS_NAMA, ADDRESS_NAMA + PANJANG_NAMA);
+    for (int i = 0; i < 0; i++) {
+        Serial.printf("%c", EEPROM.readByte(ADDRESS_NAMA + i));
+    }
+    Serial.println();
 }
 
 void loop() {
-    String message = "EEPROM TEST";
-    //============= Coba Comment Dari Sini pada upload kedua ===============
-    // Write single byte "42" to address 0
-    EEPROM.write(0, 42);
-
-    // Write string to EEPROM starting at address 10
-    for (int i = 0; i < message.length(); i++) {
-        EEPROM.write(10 + i, message[i]);
-    }
-
-    // Commit changes to flash (penting!)
-    EEPROM.commit();
-    //================== Hingga Sini ===================
-
-    // Read single byte from address 0
-    int value = EEPROM.read(0);
-    Serial.printf("Value at address 0: %d\n", value);
-
-    // Read string from EEPROM
-    String readMessage = "";
-    for (int i = 0; i < message.length(); i++) {
-        char c = EEPROM.read(10 + i);
-        readMessage += c;
-    }
-    Serial.printf("Message from EEPROM: %s\n", readMessage.c_str());
-
-    delay(5000);
 }
 ```
+
+Program diatas melakukan penulisan data string "BISMA" ke dalam EEPROM pada alamat 1-5, dan membaca kembali data tersebut dari EEPROM.
 
 EEPROM dapat sangat berguna ketika ingin program memiliki perilaku berbeda tanpa perlu untuk mengubah ataupun meng-upload ulang kode.
 
 Contoh Implementasi EEPROM :
+https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/8b5fa021af8fe352d958d38830b4af64302ddca0/Programming/ESP/example/EEPROM/src/main.cpp#L1-L96
 
-```cpp
-#include <Arduino.h>
-#include <EEPROM.h>
-
-#define EEPROM_SIZE 128
-#define ADDR_TEST 10
-
-unsigned long previousMillis = 0;
-bool ledState = false;
-
-void setup() {
-    Serial.begin(115200);
-    EEPROM.begin(EEPROM_SIZE);
-
-    // Initialize LED pin
-    pinMode(LED_BUILTIN, OUTPUT);
-
-    // Uncomment salah satu baris di bawah untuk mengatur nilai EEPROM
-    // EEPROM.write(ADDR_TEST, 0);  // LED mati
-    // EEPROM.write(ADDR_TEST, 1);  // Berkedip 300ms
-    // EEPROM.write(ADDR_TEST, 2);  // Berkedip 1000ms
-    // EEPROM.write(ADDR_TEST, 3);  // Menyala terus
-    // EEPROM.commit();  // Jangan lupa commit setelah write
-
-    // Read current value from EEPROM
-    int mode = EEPROM.read(ADDR_TEST);
-    Serial.printf("LED Mode from EEPROM: %d\n", mode);
-
-    switch(mode) {
-        case 0:
-            Serial.println("Mode 0: LED OFF");
-            break;
-        case 1:
-            Serial.println("Mode 1: LED Blink 300ms");
-            break;
-        case 2:
-            Serial.println("Mode 2: LED Blink 1000ms");
-            break;
-        case 3:
-            Serial.println("Mode 3: LED Always ON");
-            break;
-        default:
-            Serial.println("Unknown mode, LED OFF");
-            break;
-    }
-}
-
-void loop() {
-    // Read LED mode from EEPROM
-    int ledMode = EEPROM.read(ADDR_TEST);
-    unsigned long currentMillis = millis();
-
-    switch(ledMode) {
-        case 0:
-            // LED mati
-            digitalWrite(LED_BUILTIN, LOW);
-            break;
-
-        case 1:
-            // Berkedip setiap 300ms
-            if (currentMillis - previousMillis >= 300) {
-                previousMillis = currentMillis;
-                ledState = !ledState;
-                digitalWrite(LED_BUILTIN, ledState);
-            }
-            break;
-
-        case 2:
-            // Berkedip setiap 1000ms
-            if (currentMillis - previousMillis >= 1000) {
-                previousMillis = currentMillis;
-                ledState = !ledState;
-                digitalWrite(LED_BUILTIN, ledState);
-            }
-            break;
-
-        case 3:
-            // Menyala terus
-            digitalWrite(LED_BUILTIN, HIGH);
-            break;
-
-        default:
-            // Default: LED mati jika nilai tidak dikenali
-            digitalWrite(LED_BUILTIN, LOW);
-            break;
-    }
-
-    // Optional: Check for serial input to change mode
-     if (Serial.available()) {
-        int newMode = Serial.read();
-        if (newMode >= 0 && newMode <= 3) {
-            EEPROM.write(ADDR_TEST, newMode);
-            EEPROM.commit();
-            Serial.printf("LED mode changed to: %d\n", newMode);
-        }
-    }
-}
-```
+Program diatas mengimplementasikan EEPROM untuk menyimpan konfigurasi untuk penyalaan mode led esp.
 
 ## SPIFFS
 
-_TBA ndak sempat bikin nanti tak tambahin yah_
+SPIFFS adalah filesystem kayak filesystem NTFS punya windows atau ext4 punya ubuntu dan kalo SPIFFS punya ESP32, yang memungkinkan kita untuk menyimpan file pada flash memory ESP32. Dengan SPIFFS, kita bisa file seperti teks, gambar, atau konfigurasi yang dapat diakses dan dimodifikasi selama runtime.
+
+contoh penggunaan SPIFFS simple:
+https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/8b5fa021af8fe352d958d38830b4af64302ddca0/Programming/ESP/example/SPIFFS/src/main.cpp#L2-L53
+
+Kode diatas melakukan inisialisasi SPIFFS.
+Membuat file bernama "hello.txt" dan menulis "Halo, Aku ada didalam text bernama hello.txt" ke dalamnya.
 
 ## JSON
 
-_TBA ndak sempat bikin nanti tak tambahin yah_
+Sama kayak pembelajaran dimodul sebelumnya, ESP juga support pembacaan JSON, tapi pake library tambahan yaitu ArduinoJSON. untuk dokumentasinya bisa dilihat di:
+[ArduinoJSON](https://arduinojson.org/ "ArduinoJSON")
+
+contoh penggunaan ArduinoJSON simple:
+https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/8b5fa021af8fe352d958d38830b4af64302ddca0/Programming/ESP/example/ArduinoJSON/src/main.cpp#L2-L88
+
+Kode diatas ngelakuin 2 hal:
+
+1. Membuat file json dan ngisi file tersebut lalu disimpen di SPIFFS
+2. Baca file json dari SPIFFS dan parsing isinya
+
+Jadi proses pembacaan json di arduino itu ngelakuin 2 step:
+
+1. Baca file json dari SPIFFS
+2. Parsing isinya pake deserializeJson()
+3. Parsing nilai non json ke jsondocument pake SerializeJson()
+
+jadi DeserializeJson() itu fungsi buat ngebaca/ngeekstrak data file json ke bentuk yang dapat diolah di program.
+Sedangkan SerializeJson() itu fungsi buat ngubah data yang ada di program ke bentuk json.
 
 ## Simulasi Wokwi
 
