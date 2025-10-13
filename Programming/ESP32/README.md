@@ -273,7 +273,15 @@ Membuat file bernama "hello.txt" dan menulis "Halo, Aku ada didalam text bernama
 
 ## JSON
 
-Sama kayak pembelajaran dimodul sebelumnya, ESP juga support pembacaan JSON, tapi pake library tambahan yaitu ArduinoJSON. untuk dokumentasinya bisa dilihat di:
+Sama kayak pembelajaran dimodul sebelumnya, ESP juga support pembacaan JSON, tapi pake library tambahan yaitu ArduinoJSON. Cara installnya pake libdeps di platformio.ini
+
+![ArduinoJson Lib install](./assets/platformiolibarduinojson1.png)
+
+![ArduinoJson Lib install2](./assets/platformiolibarduinojson2.png)
+
+https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/0c2005610d995232fcd6f68522ccfb3f6fb688c4/Programming/ESP/example/ArduinoJSON/platformio.ini#L16-L17
+
+untuk dokumentasinya bisa dilihat di:
 [ArduinoJSON](https://arduinojson.org/ "ArduinoJSON")
 
 contoh penggunaan ArduinoJSON simple:
