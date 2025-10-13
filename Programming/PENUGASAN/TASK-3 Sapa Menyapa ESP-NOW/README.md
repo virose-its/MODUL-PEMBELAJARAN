@@ -43,8 +43,6 @@ Perintah yang dapat diproses:
 #### **TODO 3**: Buatlah perintah untuk memproses perintah yang diterima baik melalui Serial dan ESP-NOW.
 https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/e137fed29e4db7e655b02d499a70e7c17d62d43a/Programming/PENUGASAN/TASK-3%20Sapa%20Menyapa%20ESP-NOW/TEMPLATE%20TASK-3%20Sapa%20Menyapa/src/utility.cpp#L109-L111
 
-#### **TODO 4**: Upload Project TASK-3 ini kedalam repo intership-virose mu dan buatlah Dokumentasi menggunakan github markdown yang menjelaskan cara kerja modifikasi yang kamu buat pada project ini agar dapat bekerja.
-
 #### Ketentunan pemrosesan perintah:
 
 Perintah HALO:
@@ -62,6 +60,8 @@ Perintah CEK:
 Perintah JAWAB:
 
 - Perintah JAWAB cuma menerima dari ESP-NOW, cetak ke Serial Monitor String yang diterima".
+
+#### **TODO 4**: Upload Project TASK-3 ini kedalam repo intership-virose mu dan buatlah Dokumentasi menggunakan github markdown yang menjelaskan cara kerja modifikasi yang kamu buat pada project ini agar dapat bekerja.
 
 ## Keterangan
 
