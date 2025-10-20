@@ -1,0 +1,374 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/Pcb.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/SolarCell.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/ElectricConduit.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/FormedConcrete.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.6560572114559792 0.04874053930285954 0.7531356419165613 2.986841382194566
+  position 0.03751384147119793 0.3742863490895726 0.35647960607181156
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+Solid {
+  translation 9.828539896878699e-12 0.2550000092392503 0.04980379999806959
+  rotation -0.9999995664748795 1.0445252675812929e-06 0.000931154639133332 1.5003518426574747e-07
+  children [
+    Shape {
+      appearance FormedConcrete {
+      }
+      geometry Box {
+        size 0.5 0.01 0.1
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.5 0.01 0.1
+  }
+  physics Physics {
+  }
+  linearVelocity 1.3228718843125083e-12 1.1940385110644995e-10 3.804473224515722e-12
+  angularVelocity 2.3480780026600038e-09 -3.220394079446953e-13 1.904093028488315e-11
+}
+Solid {
+  translation -9.82853964982615e-12 -0.2550000092392504 0.049803799998069595
+  rotation 0.9999995664748995 -1.0446301977204401e-06 0.0009311546176661507 1.5003518239159866e-07
+  children [
+    Shape {
+      appearance FormedConcrete {
+      }
+      geometry Box {
+        size 0.5 0.01 0.1
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject Box {
+    size 0.5 0.01 0.1
+  }
+  physics Physics {
+  }
+  linearVelocity -1.3228181200312054e-12 -1.1940384766974576e-10 3.8044164080410066e-12
+  angularVelocity -2.348077738844627e-09 3.2310522204832684e-13 1.904094026768662e-11
+}
+Solid {
+  translation -2.4522793838588756e-16 3.740274366267842e-18 0.049803800003947414
+  rotation -2.3223074404931676e-15 -2.414258448457229e-15 1 1.570799693700268
+  children [
+    Shape {
+      appearance FormedConcrete {
+      }
+      geometry Box {
+        size 0.5 0.01 0.1
+      }
+    }
+  ]
+  name "solid(2)"
+  boundingObject Box {
+    size 0.5 0.01 0.1
+  }
+  physics Physics {
+  }
+  linearVelocity 1.2378191066987688e-16 -1.3173212249761184e-17 -8.2948759108354e-12
+  angularVelocity -7.497753086195053e-17 2.0764511488028648e-15 -2.7160217534362794e-11
+}
+Solid {
+  translation 0.37506573610603733 -3.175103827797597e-17 0.049902015206352054
+  rotation 4.106850737287157e-12 -0.9999999999999999 1.88803513062606e-14 0.00018242299952364233
+  children [
+    Shape {
+      appearance FormedConcrete {
+      }
+      geometry Box {
+        size 0.25 0.01 0.1
+      }
+    }
+  ]
+  name "solid(3)"
+  boundingObject Box {
+    size 0.25 0.01 0.1
+  }
+  physics Physics {
+  }
+  linearVelocity -3.582372067036503e-06 3.863470010032289e-18 -5.572666395900416e-09
+  angularVelocity 1.440239273814528e-17 9.938425259366247e-06 -2.66017583907399e-17
+}
+Solid {
+  translation -0.4036178333993959 0.0930001217492142 0.049901899999902605
+  rotation 5.173561837990601e-11 -2.207476684177344e-11 -1 0.7754327089885059
+  children [
+    Shape {
+      appearance FormedConcrete {
+      }
+      geometry Box {
+        size 0.25 0.01 0.1
+      }
+    }
+  ]
+  name "solid(4)"
+  boundingObject Box {
+    size 0.25 0.01 0.1
+  }
+  physics Physics {
+  }
+  linearVelocity 9.700543231343014e-12 9.526135354527691e-12 7.613039087410143e-13
+  angularVelocity -1.905209130172602e-10 1.940099112776259e-10 4.079007807313044e-17
+}
+Solid {
+  translation -0.402 -0.09299999999999999 0.04990189999902601
+  rotation -4.240295466319813e-16 -1.9916053439356347e-16 1 0.7854003061004253
+  children [
+    Shape {
+      appearance FormedConcrete {
+      }
+      geometry Box {
+        size 0.25 0.01 0.1
+      }
+    }
+  ]
+  name "solid(5)"
+  boundingObject Box {
+    size 0.25 0.01 0.1
+  }
+  physics Physics {
+  }
+  linearVelocity 1.1241528433057426e-17 1.015135109493187e-16 7.613948582515757e-12
+  angularVelocity -1.6432871257124807e-15 -4.672202828592205e-16 -1.5863484928758503e-17
+}
+Solid {
+  translation -0.13 -0.12400000000000005 0.049874432025729235
+  rotation 8.39495420437649e-16 2.9161191159550926e-16 1 0.7854003061004253
+  children [
+    Shape {
+      appearance FormedConcrete {
+      }
+      geometry Box {
+        size 0.32 0.01 0.1
+      }
+    }
+  ]
+  name "solid(6)"
+  boundingObject Box {
+    size 0.32 0.01 0.1
+  }
+  physics Physics {
+  }
+  linearVelocity -2.6632889647472728e-16 2.66387087960458e-16 -2.0116681654521696e-10
+  angularVelocity -6.891687882902669e-15 -6.299067864364214e-15 7.977388079130158e-17
+}
+Solid {
+  translation -0.13000000000000003 0.12399999999999997 0.04987443202572923
+  rotation 5.393290721519854e-16 -1.7386465163199236e-16 -1 0.7854003061004253
+  children [
+    Shape {
+      appearance FormedConcrete {
+      }
+      geometry Box {
+        size 0.32 0.01 0.1
+      }
+    }
+  ]
+  name "solid(7)"
+  boundingObject Box {
+    size 0.32 0.01 0.1
+  }
+  physics Physics {
+  }
+  linearVelocity -7.188996778723897e-17 -5.74544287182106e-17 -2.0116686095248815e-10
+  angularVelocity 1.6488428606476375e-15 -1.6488492916905369e-15 2.486123800428216e-16
+}
+Robot {
+  translation -0.011334902764589712 0.3635084540917021 -0.004672294998334905
+  rotation -0.008939908175982841 -0.11643375247281919 -0.9931582247189534 0.15411954000823075
+  children [
+    DEF ds_front_right DistanceSensor {
+      translation 0.053 -0.046 0.05
+      children [
+        Shape {
+          geometry Sphere {
+            radius 0.004
+          }
+        }
+      ]
+      name "ds_front_right"
+      lookupTable [
+        0 1000 0
+        0.2 0 0
+      ]
+    }
+    DEF ds_front_left DistanceSensor {
+      translation 0.053 0.046 0.05
+      children [
+        Shape {
+          geometry Sphere {
+            radius 0.004
+          }
+        }
+      ]
+      name "ds_front_left"
+      lookupTable [
+        0 1000 0
+        0.2 0 0
+      ]
+    }
+    DEF ds_right DistanceSensor {
+      translation 0.035 -0.055 0.05
+      rotation 0 0 1 -1.5707996938995747
+      children [
+        Shape {
+          geometry Sphere {
+            radius 0.004
+          }
+        }
+      ]
+      name "ds_right"
+      lookupTable [
+        0 1000 0
+        0.2 0 0
+      ]
+    }
+    DEF ds_left DistanceSensor {
+      translation 0.035 0.055 0.05
+      rotation 0 0 1 1.5707996938995747
+      children [
+        Shape {
+          geometry Sphere {
+            radius 0.004
+          }
+        }
+      ]
+      name "ds_left"
+      lookupTable [
+        0 1000 0
+        0.2 0 0
+      ]
+    }
+    DEF castor_wheel Solid {
+      translation 0.035 0 0.012
+      children [
+        Shape {
+          appearance ElectricConduit {
+          }
+          geometry Sphere {
+            radius 0.008
+          }
+        }
+      ]
+      name "castor wheel"
+      boundingObject Sphere {
+        radius 0.008
+      }
+      physics Physics {
+        density -1
+        mass 0.02
+      }
+    }
+    DEF roda_kanan HingeJoint {
+      jointParameters HingeJointParameters {
+        position 54592.298038423134
+        axis 0 1 0
+        anchor 0 -0.06 0.024
+      }
+      device [
+        RotationalMotor {
+          name "right wheel motor"
+        }
+      ]
+      endPoint Solid {
+        translation 0 -0.06 0.024
+        rotation 0.3020371382863874 0.6740809406087934 0.6740834166508877 3.72823997865486
+        children [
+          Shape {
+            appearance SolarCell {
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.02
+            }
+          }
+        ]
+        name "roda kanan"
+        boundingObject Cylinder {
+          height 0.02
+          radius 0.02
+        }
+        physics Physics {
+          density -1
+          mass 0.05
+        }
+        linearVelocity 0.1185970319608004 -0.018295726120079854 1.1412774206590982e-07
+        angularVelocity 0.9148374018663525 5.929866164529068 -4.190244555152573e-06
+      }
+    }
+    DEF roda_kiri HingeJoint {
+      jointParameters HingeJointParameters {
+        position 68126.70822411377
+        axis 0 1 0
+        anchor 0 0.06 0.024
+      }
+      device [
+        RotationalMotor {
+          name "left wheel motor"
+        }
+      ]
+      endPoint Solid {
+        translation 0 0.06 0.024
+        rotation 0.4626317430212222 0.6268847514947488 0.6268870541752423 4.0082072363878485
+        children [
+          Shape {
+            appearance SolarCell {
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.02
+            }
+          }
+        ]
+        name "roda kiri"
+        boundingObject Cylinder {
+          height 0.02
+          radius 0.02
+        }
+        physics Physics {
+          density -1
+          mass 0.05
+        }
+        linearVelocity 0.11859620562887692 -0.018296361739885525 1.670148407841384e-07
+        angularVelocity 0.9148374120570582 5.929866133849386 -4.169024530783219e-06
+      }
+    }
+    DEF body Solid {
+      translation 0 0 0.03926
+      children [
+        Shape {
+          appearance Pcb {
+          }
+          geometry Box {
+            size 0.1 0.1 0.06
+          }
+        }
+      ]
+      name "Body"
+      boundingObject Box {
+        size 0.1 0.1 0.06
+      }
+      physics Physics {
+      }
+    }
+  ]
+  physics Physics {
+  }
+  controller "my_controller"
+  linearVelocity 0.11859643298761965 -0.018296005051144218 1.31375782285779e-07
+  angularVelocity 3.498978036249314e-06 1.973169201720855e-05 5.942322201392672e-06
+}
