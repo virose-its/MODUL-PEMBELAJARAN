@@ -19,7 +19,7 @@ MATERI PEMBELAJARAN:
 - [CMAKE](Programming/CMAKE_JSON/MODUL_CMAKE.md) - Modul CMake pembelajaran dasar manajemen dependensi program
 - [JSON](Programming/JSON/README.md) - Modul JSON pembelajaran dasar format data
 - [ESP32](Programming/ESP/README.md) - Modul ESP32 pembelajaran dasar IOT
-- [SIMULASI ROBOT]() TBA - Modul Simulasi Robot pembelajaran dasar simulasi robot
+- [SIMULASI ROBOT]() - Modul Simulasi Robot pembelajaran dasar simulasi robot
 - [ROS]() TBA - Modul ROS pembelajaran dasar Robot Operating System
 
 EXTRA:
