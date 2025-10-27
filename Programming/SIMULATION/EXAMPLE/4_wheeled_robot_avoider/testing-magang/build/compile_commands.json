@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Users/LENOVO/Downloads/testing-magang/testing-magang/build",
+  "command": "C:/msys64/mingw64/bin/g++.exe -DWEBOTS_USED_BY_CONTROLLER @CMakeFiles/four_wheeled_collision_avoidance.dir/includes_CXX.rsp -g -o CMakeFiles/four_wheeled_collision_avoidance.dir/four_wheeled_collision_avoidance.cpp.obj -c C:/Users/LENOVO/Downloads/testing-magang/testing-magang/controllers/four_wheeled_collision_avoidance/four_wheeled_collision_avoidance.cpp",
+  "file": "C:/Users/LENOVO/Downloads/testing-magang/testing-magang/controllers/four_wheeled_collision_avoidance/four_wheeled_collision_avoidance.cpp",
+  "output": "CMakeFiles/four_wheeled_collision_avoidance.dir/four_wheeled_collision_avoidance.cpp.obj"
+}
+]

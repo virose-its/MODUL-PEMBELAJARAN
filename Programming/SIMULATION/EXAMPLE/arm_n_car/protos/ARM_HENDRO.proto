@@ -1,0 +1,580 @@
+#VRML_SIM R2025a utf8
+# ARM e HENDRO
+
+EXTERNPROTO "XL320.proto"
+
+PROTO ARM_HENDRO [
+  field SFVec3f    translation     0 0 0
+  field SFRotation rotation        0 0 1 0
+  field SFString   name            "arm_hendro"
+  field SFString   controller      "<generic>"
+  field MFString   controllerArgs  []
+  field SFString   customData      ""
+  field SFBool     supervisor      FALSE
+  field SFBool     synchronization TRUE
+  field SFVec3f    scale           0.002 0.002 0.002
+]
+
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    scale IS scale
+
+    children [
+      DEF BASE Solid {
+        children [
+          Transform {
+            rotation 1 0 0 1.5708
+            scale IS scale
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 1.0 1.0 1.0
+                  metalness 0.8
+                  roughness 0.3
+                  transparency 0
+                  emissiveColor 0 0 0
+                  occlusionMapStrength 1.0
+                }
+                geometry Mesh {
+                  url "../models/1_Base.stl"
+                }
+                castShadows TRUE
+              }
+            ]
+          }
+          XL320 {
+            translation 0.0 0.005 0.024
+            rotation 1 0 0 0
+            scale IS scale
+          }
+          
+          # Z-axis rotating stage on top of BASE
+          DEF UPPER_BASE_HINGE HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 0 1           # Rotate around Z axis
+              anchor 0 0.005 0.02      # Adjust to exact pivot height
+            }
+            device [
+              RotationalMotor {
+                name "upper_base_motor"
+                maxTorque 5
+                minPosition -3.14159
+                maxPosition 3.14159
+              }
+              PositionSensor {
+                name "upper_base_sensor"
+              }
+            ]
+            # LIMB JOINT
+            endPoint DEF UPPER_BASE Solid {
+
+              name "upper_base"
+              translation 0 0.005 0.02
+
+              children [
+                Transform {
+                  rotation 1 0 0 1.5708
+                  scale IS scale
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.8 0.8 0.85
+                        metalness 0.8
+                        roughness 0.3
+                      }
+                      geometry Mesh {
+                        url "../models/2_UpperBase.stl"
+                      }
+                      castShadows TRUE
+                    }
+                  ]
+                }
+                XL320 {
+                  translation 0 0 0.11
+                  rotation 1 0 0 1.5708
+                  scale IS scale
+                }
+
+                # LIMB JOINT
+                DEF ARM_1_HINGE HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0 1 0         # Rotate around X axis
+                    anchor 0 0 0.11    # Pivot relative to UPPER_BASE origin (tune)
+                  }
+                  device [
+                    RotationalMotor {
+                      name "arm_1_motor"
+                      maxTorque 9
+                      minPosition -1.65
+                      maxPosition 1.65
+                    }
+                    PositionSensor {
+                      name "arm_1_sensor"
+                    }
+                  ]
+
+                  endPoint DEF ARM_1 Solid {
+                    name "arm_1"
+                    translation 0 0 0.11
+                    children [
+                      
+                      Transform {
+                        translation 0 0.05 0
+                        rotation 0.57735027 -0.57735027 0.57735027 2.0944
+                        scale IS scale
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.8 0.8 0.85
+                              metalness 0.8
+                              roughness 0.3
+                            }
+                            geometry Mesh {
+                              url "../models/3_LeftBeam.stl"
+                            }
+                            castShadows TRUE
+                          }
+                        ]
+                      }
+                      Transform {
+                        translation 0 -0.037 0
+                        rotation -0.57735027 -0.57735027 -0.57735027 2.0944
+                        scale IS scale
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0.8 0.8 0.85
+                              metalness 0.8
+                              roughness 0.3
+                            }
+                            geometry Mesh {
+                              url "../models/4_RightBeam.stl"
+                            }
+                            castShadows TRUE
+                          }
+                        ]
+                      }
+                      XL320 {
+                        translation 0 -0.007 0.3
+                        rotation 1 0 0 1.5708
+                        scale IS scale
+                      }
+
+                      # LIMB JOINT
+                      DEF ARM_2_HINGE HingeJoint {
+                        jointParameters HingeJointParameters {
+                          axis 0 1 0         # Rotate around X axis
+                          anchor 0 0 0.299   # Pivot at end of ARM_1
+                        }
+                        device [
+                          RotationalMotor {
+                            name "arm_2_motor"
+                            maxTorque 7
+                            minPosition -2.87
+                            maxPosition 2.87
+                          }
+                          PositionSensor {
+                            name "arm_2_sensor"
+                          }
+                        ]
+                        endPoint DEF ARM_2 Solid {
+                          name "arm_2"
+                          translation 0 0 0.299
+                          children [
+                            # Visual: second arm segment
+                            Transform {
+                              translation 0 0.0425 0
+                              rotation 0.57735027 -0.57735027 0.57735027 2.0944
+                              scale IS scale
+                              children [
+                                Shape {
+                                  appearance PBRAppearance {
+                                    baseColor 0.7 0.7 0.75
+                                    metalness 0.8
+                                    roughness 0.3
+                                  }
+                                  geometry Mesh {
+                                    url "../models/6_RightBeamGripper.stl"
+                                  }
+                                  castShadows TRUE
+                                }
+                              ]
+                            }
+                            Transform {
+                              translation 0 -0.0435 0
+                              rotation -0.57735027 -0.57735027 -0.57735027 2.0944
+                              scale IS scale
+                              children [
+                                Shape {
+                                  appearance PBRAppearance {
+                                    baseColor 0.7 0.7 0.75
+                                    metalness 0.8
+                                    roughness 0.3
+                                  }
+                                  geometry Mesh {
+                                    url "../models/4_RightBeam.stl"
+                                  }
+                                  castShadows TRUE
+                                }
+                              ]
+                            }
+                            XL320 {
+                              translation 0 -0.0125 0.30
+                              rotation 1 0 0 1.5708
+                              scale IS scale
+                            }
+
+                            # LIMB JOINT
+                            DEF ARM_3_HINGE HingeJoint {
+                              jointParameters HingeJointParameters {
+                                axis 0 1 0         # Rotate around X axis
+                                anchor 0 0 0.3   # Pivot at end of ARM_2
+                              }
+                              device [
+                                RotationalMotor {
+                                  name "arm_3_motor"
+                                  maxTorque 3
+                                  minPosition -2.5
+                                  maxPosition 2.5
+                                }
+                                PositionSensor {
+                                  name "arm_3_sensor"
+                                }
+                              ]
+                              endPoint DEF ARM_3 Solid {
+                                name "arm_3"
+                                translation 0 0 0.30
+                                rotation 0 -1 0 1.5708
+                                children [
+                                  
+                                  Transform {
+                                    translation 0 -0.045 0
+                                    rotation 1 0 0 3.14159
+                                    scale IS scale
+                                    children [
+                                      Shape {
+                                        appearance PBRAppearance {
+                                          baseColor 0.6 0.6 0.65
+                                          metalness 0.8
+                                          roughness 0.3
+                                        }
+                                        geometry Mesh {
+                                          url "../models/5_GripperWristBeam.stl"
+                                        }
+                                        castShadows TRUE
+                                      }
+                                    ]
+                                  }
+                                  Transform {
+                                    translation 0 0.038 0
+                                    rotation -1 0 0 0
+                                    scale IS scale
+                                    children [
+                                      Shape {
+                                        appearance PBRAppearance {
+                                          baseColor 0.6 0.6 0.65
+                                          metalness 0.8
+                                          roughness 0.3
+                                        }
+                                        geometry Mesh {
+                                          url "../models/5_GripperWristBeam.stl"
+                                        }
+                                        castShadows TRUE
+                                      }
+                                    ]
+                                  }
+                                  Transform {
+                                    translation 0.067 0.018 0.019
+                                    rotation 1 0 0 1.5708
+                                    scale IS scale
+                                    children [
+                                      Shape {
+                                        appearance PBRAppearance {
+                                          baseColor 0.6 0.6 0.65
+                                          metalness 0.8
+                                          roughness 0.3
+                                        }
+                                        geometry Mesh {
+                                          url "../models/9_GripperBase.stl"
+                                        }
+                                        castShadows TRUE
+                                      }
+                                    ]
+                                  }
+                                  XL320 {
+                                    translation 0.067 0.0175 -0.005
+                                    rotation 0 0 0 0
+                                    scale IS scale
+                                  }
+                                  # # LIMB JOINT
+                                  DEF LEFT_GRIPPER_HINGE HingeJoint {
+                                    jointParameters HingeJointParameters {
+                                      axis 0 0 1
+                                      anchor 0.0675 -0.03505 0.033
+                                    }
+                                    device [
+                                      RotationalMotor {
+                                        name "left_gripper_motor"
+                                        maxTorque 100
+                                        minPosition -1
+                                        maxPosition 0.215
+                                      }
+                                      PositionSensor {
+                                        name "left_gripper_sensor"
+                                      }
+                                    ]
+                                    endPoint DEF LEFT_GRIPPER Solid {
+                                      translation 0.0675 -0.03505 0.033
+                                      children [
+                                        Transform {
+                                          rotation 1 0 0 1.5708
+                                          scale IS scale
+                                          children [
+                                            Shape {
+                                              appearance PBRAppearance {
+                                                baseColor 0.7 0.7 0.7
+                                                metalness 0.8
+                                                roughness 0.3
+                                              }
+                                              geometry Mesh {
+                                                url "../models/8_LeftGripper.stl"
+                                              }
+                                              castShadows TRUE
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                      # Gripper Kiri Bounding Object karo Physic
+                                      boundingObject Group {
+                                        children [
+                                          Transform {
+                                            translation 0.08 -0.012 -0.033
+                                            children [
+                                              Box {
+                                                size 0.1 0.02 0.08
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                      physics Physics {
+                                        density 100
+                                      }
+                                    }
+                                  }
+                                  # LIMB JOINT
+                                  DEF RIGHT_GRIPPER_HINGE HingeJoint {
+                                    jointParameters HingeJointParameters {
+                                      axis 0 0 1
+                                      anchor 0.0675 0.0173 0.033
+                                    }
+                                    device [
+                                      RotationalMotor {
+                                        name "right_gripper_motor"
+                                        maxTorque 100
+                                        minPosition -0.215
+                                        maxPosition 1
+                                      }
+                                      PositionSensor {
+                                        name "right_gripper_sensor"
+                                      }
+                                    ]
+                                    endPoint DEF RIGHT_GRIPPER Solid {
+                                      translation 0.0675 0.0173 0.033
+                                      children [
+                                        Transform {
+                                          rotation -1 0 0 1.5708
+                                          scale IS scale
+                                          children [
+                                            Shape {
+                                              appearance PBRAppearance {
+                                                baseColor 0.7 0.7 0.7
+                                                metalness 0.8
+                                                roughness 0.3
+                                              }
+                                              geometry Mesh {
+                                                url "../models/7_RightGripper.stl"
+                                              }
+                                              castShadows TRUE
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                      # Gripper Kanan Bounding Object karo Physic
+                                      boundingObject Group {
+                                        children [
+                                          Transform {
+                                            translation 0.08 0.012 -0.033
+                                            children [
+                                              Box {
+                                                size 0.1 0.02 0.08
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                      physics Physics {
+                                        density 100
+                                      }
+                                    }
+                                  }
+                                  # Sensor Jarak
+                                  Transform {
+                                    translation 0.1 -0.007 0
+                                    rotation 0 0 0 0
+                                    children [
+                                      DistanceSensor{
+                                        name "gripper_distance"
+                                        type "infra-red"
+                                        lookupTable [ 0 0 0, 0.2 1000 0 ]
+                                      }
+                                    ]
+                                  }
+                                  InertialUnit {
+                                    name "arm_3_imu"
+                                  }
+                                ]
+                                # ARM 3 Bounding Object karo Physic
+                                boundingObject Group {
+                                  children [
+                                    Transform {
+                                      translation 0.04 -0.003 0.0
+                                      children [
+                                        Box {
+                                          size 0.13 0.105 0.06
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                                physics Physics {
+                                  density 100
+                                }
+                                
+                              }
+                            }
+                          ]
+                          # ARM 2 Bounding Object karo Physic
+                          boundingObject Group {
+                            children [
+                              Transform {
+                                translation 0 -0.0005 0.16
+                                children [
+                                  Box {
+                                    size 0.06 0.09 0.35
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                          physics Physics {
+                            density 100
+                          }
+                        }
+                      }
+                    ]
+                    # ARM 1 Bounding Object karo Physic
+                    boundingObject Group {
+                      children [
+                        Transform {
+                          translation 0 -0.0005 0.15
+                          children [
+                            Box {
+                              size 0.06 0.08 0.35
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                    physics Physics {
+                      density 1200
+                    }
+                  }
+                }
+                # Upper Base Gyro
+                InertialUnit {
+                  name "upper_base_imu"
+                }
+              ]
+              # UPPER_BASE Bounding Object karo Physic
+              boundingObject Group {
+                children [
+                  Transform {
+                    translation 0.0 0.001 -0.007
+                    rotation 0 0 0 0
+                    children [
+                      Cylinder {
+                        height 0.035
+                        radius 0.11
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation 0.0 0.001 0.025
+                    rotation 0 0 0 0
+                    children [
+                      Cylinder {
+                        height 0.03
+                        radius 0.08
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation 0.0 0.0 0.093
+                    rotation 0 0 1 1.5708
+                    children [
+                      Box {
+                        size 0.08 0.1 0.105
+                      }
+                    ]
+                  }
+                ]
+              }
+              physics Physics {
+                density 1200
+              }
+            }
+          }
+        ]
+
+        # BASE Bounding Object karo Physic
+        boundingObject Group {
+          children [
+            Transform {
+              translation 0.0 0.001 -0.003
+              rotation 0 0 0 0
+              children [
+                Cylinder {
+                  height 0.008
+                  radius 0.105
+                }
+              ]
+            }
+            Transform {
+              translation 0.0 -0.012 0.023
+              rotation 0 0 1 1.5708
+              children [
+                Box {
+                  size 0.075 0.0525 0.05
+                }
+              ]
+            }
+          ]
+        }
+        physics Physics {
+          density 1200
+        }
+      }
+    ]
+    # Robot root should not have physics when using Solid children with physics
+    # physics Physics {}
+  }
+}

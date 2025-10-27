@@ -1,0 +1,498 @@
+#VRML_SIM R2025a utf8
+# simple car
+# keyword: car, simple, 4wheel
+
+EXTERNPROTO "WHEEL.proto"
+
+PROTO CAR [
+  field SFVec3f    translation     0 0.1 0
+  field SFRotation rotation        0 0 0 0
+  field SFString   name            "simple_car"
+  field SFString   controller      "<generic>"
+  field SFBool     supervisor      FALSE
+  field SFBool     synchronization TRUE
+  field MFNode     body_slot       []
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    controller IS controller
+    supervisor IS supervisor
+    synchronization IS synchronization
+    body_slot IS body_slot
+
+    children [
+      # Car body
+      DEF BODY Solid {
+        translation 0 0 0
+        children [
+          # BODY Mobil
+          Transform {
+            translation 0 0 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.2 0.2 0.8
+                }
+                geometry Box {
+                  size 0.2 0.07 0.0125
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0.045 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.2 0.2 0.8
+                }
+                geometry Box {
+                  size 0.075 0.03 0.0125
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 -0.045 0
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.2 0.2 0.8
+                }
+                geometry Box {
+                  size 0.075 0.03 0.0125
+                }
+              }
+            ]
+          }
+          
+          DEF FRONT_LEFT_STEER_HINGE HingeJoint {
+            jointParameters HingeJointParameters {
+              anchor 0.075 0.06 0
+              axis 0 0 1   #  Steer Z
+              suspensionSpringConstant  30
+              suspensionDampingConstant 0.05
+              suspensionAxis 0 0 1
+              
+            }
+            
+            device [
+              RotationalMotor{
+                name "front_left_steer"
+                maxTorque 5
+                minPosition -0.3
+                maxPosition 0.3
+              }
+              PositionSensor{
+                name "fornt_left_steer_sensor"
+              }
+            ]
+            endPoint DEF FRONT_LEFT_STEER_BASE Solid {
+              name "front_left_steer_base"
+              translation 0.075 0.06 0
+              children [
+                # dikei pose
+                DEF FRONT_LEFT_WHEEL_HINGE HingeJoint{
+                  jointParameters HingeJointParameters {
+                    anchor 0 0 -0.009
+                    axis 0 1 0   # Wheel rotation X
+                  }
+                  device [
+                    RotationalMotor{
+                      name "front_left_wheel"
+                      maxTorque 5
+                      maxVelocity 100
+                    }
+                    PositionSensor{
+                      name "front_left_wheel_sensor"
+                    }
+                  ]
+                  endPoint DEF FRONT_RIGHT_WHEEL Solid {
+                    translation 0 0 -0.009
+                    children [
+                      Transform {
+                        translation 0 0 0
+                        rotation 1 0 0 1.5708
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0 0 0
+                            }
+                            # TODO Object Wheel
+                            geometry Cylinder {
+                              height 0.03
+                              radius 0.03
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    # boundingObject WHEEL
+                    boundingObject Transform {
+                      translation 0 0 0
+                      rotation 1 0 0 1.5708
+                      children [
+                        Cylinder {
+                          height 0.03
+                          radius 0.03
+                        }
+                      ]
+                    }
+                    physics Physics {
+                      density 250
+                    }
+                  }
+                }
+              ]
+              # Bounding Object Steering
+              boundingObject Transform {
+                translation 0 0 0
+                children [
+                  Box {
+                    size 0.06 0.04 0.04
+                  }
+                ]
+              }
+              physics Physics {
+                density 250
+              }
+            }
+          }
+          DEF FRONT_RIGHT_STEER_HINGE HingeJoint {
+            jointParameters HingeJointParameters {
+              anchor 0.075 -0.06 0
+              axis 0 0 1   #  Steer Z
+              suspensionSpringConstant  30
+              suspensionDampingConstant 0.05
+              suspensionAxis 0 0 1
+            }
+            
+            device [
+              RotationalMotor{
+                name "front_right_steer"
+                maxTorque 5
+                minPosition -0.3
+                maxPosition 0.3
+              }
+              PositionSensor{
+                name "front_right_steer_sensor"
+              }
+            ]
+            endPoint DEF FRONT_RIGHT_STEER_BASE Solid {
+              name "front_right_steer_base"
+              translation 0.075 -0.06 0
+              children [
+                DEF FRONT_RIGHT_WHEEL_HINGE HingeJoint{
+                  jointParameters HingeJointParameters {
+                    anchor 0 0 -0.009
+                    axis 0 1 0   # Wheel rotation X
+                  }
+                  device [
+                    RotationalMotor{
+                      name "front_right_wheel"
+                      maxTorque 5
+                      maxVelocity 100
+                    }
+                    PositionSensor{
+                      name "front_right_wheel_sensor"
+                    }
+                  ]
+                  endPoint DEF FRONT_RIGHT_WHEEL Solid {
+                    translation 0 0 -0.009
+                    children [
+                      Transform {
+                        translation 0 0 0
+                        rotation 1 0 0 1.5708
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0 0 0
+                            }
+                            # TODO Object Wheel
+                            geometry Cylinder {
+                              height 0.03
+                              radius 0.03
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    # boundingObject WHEEL
+                    boundingObject Transform {
+                      translation 0 0 0
+                      rotation 1 0 0 1.5708
+                      children [
+                        Cylinder {
+                          height 0.03
+                          radius 0.03
+                        }
+                      ]
+                    }
+                    physics Physics {
+                      density 250
+                    }
+                  }
+                }
+              ]
+              # Bounding Object Steering
+              boundingObject Transform {
+                translation 0 0 0
+                children [
+                  Box {
+                    size 0.06 0.04 0.04
+                  }
+                ]
+              }
+              physics Physics {
+                density 250
+                
+                
+              }
+            }
+          }
+          DEF REAR_LEFT_STEER_HINGE HingeJoint {
+            jointParameters HingeJointParameters {
+              anchor -0.075 0.06 0
+              axis 0 0 1   #  Steer Z
+              suspensionSpringConstant  30
+              suspensionDampingConstant 0.05
+              suspensionAxis 0 0 1
+            }
+            
+            device [
+              RotationalMotor{
+                name "rear_left_steer"
+                maxTorque 5
+                minPosition -0.3
+                maxPosition 0.3
+              }
+              PositionSensor{
+                name "rear_left_steer_sensor"
+              }
+            ]
+            endPoint DEF REAR_LEFT_STEER_BASE Solid {
+              name "rear_left_steer_base"
+              translation -0.075 0.06 0
+              children [
+                DEF REAR_LEFT_WHEEL_HINGE HingeJoint{
+                  jointParameters HingeJointParameters {
+                    anchor 0 0 -0.009
+                    axis 0 1 0   # Wheel rotation X
+                  }
+                  device [
+                    RotationalMotor{
+                      name "rear_left_wheel"
+                      maxTorque 5
+                      maxVelocity 100
+                    }
+                    PositionSensor{
+                      name "rear_left_wheel_sensor"
+                    }
+                  ]
+                  endPoint DEF REAR_LEFT_WHEEL Solid {
+                    translation 0 0 -0.009
+                    children [
+                      Transform {
+                        translation 0 0 0
+                        rotation 1 0 0 1.5708
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0 0 0
+                            }
+                            # TODO Object Wheel
+                            geometry Cylinder {
+                              height 0.03
+                              radius 0.03
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    # boundingObject WHEEL
+                    boundingObject Transform {
+                      translation 0 0 0
+                      rotation 1 0 0 1.5708
+                      children [
+                        Cylinder {
+                          height 0.03
+                          radius 0.03
+                        }
+                      ]
+                    }
+                    physics Physics {
+                      density 250
+                      
+                      
+                    }
+                  }
+                }
+              ]
+              # Bounding Object Steering
+              boundingObject Transform {
+                translation 0 0 0
+                children [
+                  Box {
+                    size 0.06 0.04 0.04
+                  }
+                ]
+              }
+              physics Physics {
+                density 250
+                
+                
+              }
+            }
+          }
+          DEF rear_RIGHT_STEER_HINGE HingeJoint {
+            jointParameters HingeJointParameters {
+              anchor -0.075 -0.06 0
+              axis 0 0 1   #  Steer Z
+              suspensionSpringConstant  30
+              suspensionDampingConstant 0.05
+              suspensionAxis 0 0 1
+            }
+            
+            device [
+              RotationalMotor{
+                name "rear_right_steer"
+                maxTorque 5
+                minPosition -0.3
+                maxPosition 0.3
+              }
+              PositionSensor{
+                name "rear_right_steer_sensor"
+              }
+            ]
+            endPoint DEF REAR_RIGHT_STEER_BASE Solid {
+              name "rear_right_steer_base"
+              translation -0.075 -0.06 0
+              children [
+                DEF REAR_RIGHT_WHEEL_HINGE HingeJoint{
+                  jointParameters HingeJointParameters {
+                    anchor 0 0 -0.009
+                    axis 0 1 0   # Wheel rotation X
+                  }
+                  device [
+                    RotationalMotor{
+                      name "rear_right_wheel"
+                      maxTorque 5
+                      maxVelocity 100
+                    }
+                    PositionSensor{
+                      name "rear_right_wheel_sensor"
+                    }
+                  ]
+                  endPoint DEF rear_RIGHT_WHEEL Solid {
+                    translation 0 0 -0.009
+                    children [
+                      Transform {
+                        translation 0 0 0
+                        rotation 1 0 0 1.5708
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 0 0 0
+                            }
+                            # TODO Object Wheel
+                            geometry Cylinder {
+                              height 0.03
+                              radius 0.03
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    # boundingObject WHEEL
+                    boundingObject Transform {
+                      translation 0 0 0
+                      rotation 1 0 0 1.5708
+                      children [
+                        Cylinder {
+                          height 0.03
+                          radius 0.03
+                        }
+                      ]
+                    }
+                    physics Physics {
+                      density 250
+                      
+                      
+                    }
+                  }
+                }
+              ]
+              # Bounding Object Steering
+              boundingObject Transform {
+                translation 0 0 0
+                children [
+                  Box {
+                    size 0.06 0.04 0.04
+                  }
+                ]
+              }
+              physics Physics {
+                density 250
+                
+                
+              }
+            }
+          }
+          Gyro{
+            name "gyro"
+          }
+          Accelerometer {
+            name "accelerometer"
+          }
+          InertialUnit {
+            name "inertial_unit"
+          }
+          DEF BODY_SLOT Group {
+            children IS body_slot
+          }
+        ]
+        boundingObject Group {
+          children [
+            Transform {
+              translation 0 0 0
+              children [
+                Box {
+                  size 0.2 0.07 0.0125
+                }
+              ]
+            }
+            Transform {
+              translation 0 0.045 0
+              children [
+                Box {
+                  size 0.075 0.03 0.0125
+                }
+              ]
+            }
+            Transform {
+              translation 0 -0.045 0
+              children [
+                Box {
+                  size 0.075 0.03 0.0125
+                }
+              ]
+            }
+          ]
+        }
+        physics Physics {
+          density 250
+        }
+      }
+    ]
+    boundingObject Box {
+      size 0.01 0.01 0.0125
+    }
+    physics Physics {
+      density 500
+      centerOfMass 0 0 0
+    }
+  }
+}

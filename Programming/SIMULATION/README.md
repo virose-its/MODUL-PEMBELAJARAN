@@ -1,4 +1,5 @@
 # SIMULASI DENGAN WEBOTS
+
 ![alt text](assets/logo_webots.jpg)
 
 Webots adalah sebuah simulator robot 3D open-source yang digunakan secara luas untuk keperluan pemodelan, pemrograman, dan simulasi robot. Software ini menyediakan lingkungan pengembangan yang lengkap untuk memodelkan robot, sensor, dan lingkungan sekitarnya.
@@ -7,7 +8,7 @@ Dengan physics engine yang kuat, Webots memungkinkan simulasi yang realistis ter
 
 ## SETUP WEBOTS
 
-Untuk menggunakan webots, kalian harus meng-*install* software nya terlebih dahulu melalui link berikut ini,
+Untuk menggunakan webots, kalian harus meng-_install_ software nya terlebih dahulu melalui link berikut ini,
 
 `https://cyberbotics.com/doc/guide/installing-webots`
 
@@ -22,12 +23,12 @@ ikuti hingga sections installation procedure. Pastikan install sesuai dengan OS 
 Pada saat kalian ingin membuat project webots baru, kalian bisa mengikuti langkah-langkah berikut ini.
 
 1. Pada window webots, kalian bisa mengklik `new project directory` seperti pada gambar di bawah ini. Setelah itu, kalian bisa memilih folder project yang baru kalian buat.
-   
-    ![alt text](assets/ss_newproject.png)
+
+   ![alt text](assets/ss_newproject.png)
 
 1. Setelah membuat project baru, akan ada file-file dan folder-folder yang otomatis dibuat oleh webots seperti gambar di bawah ini.
 
-    ![alt text](assets/ss_strukturprojek.png)
+   ![alt text](assets/ss_strukturprojek.png)
 
 ## TEMPLATE CMAKE
 
@@ -70,8 +71,3 @@ add_custom_command(TARGET ${PROJECT} POST_BUILD COMMAND ${CMAKE_COMMAND} -E
 ```
 
 ## HANDS ON
-
-
-
-
-

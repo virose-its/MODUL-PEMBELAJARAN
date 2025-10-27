@@ -1,0 +1,3 @@
+C:/Users/LENOVO/Downloads/testing-magang/testing-magang/build/CMakeFiles/four_wheeled_collision_avoidance.dir
+C:/Users/LENOVO/Downloads/testing-magang/testing-magang/build/CMakeFiles/edit_cache.dir
+C:/Users/LENOVO/Downloads/testing-magang/testing-magang/build/CMakeFiles/rebuild_cache.dir

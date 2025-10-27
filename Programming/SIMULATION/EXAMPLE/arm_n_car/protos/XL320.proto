@@ -1,0 +1,32 @@
+#VRML_SIM R2025a utf8
+# XL320 Servo Motor PROTO
+# Reusable component for Dynamixel XL320 servo
+
+PROTO XL320 [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFVec3f    scale       1 1 1
+]
+{
+  Transform {
+    translation IS translation
+    rotation IS rotation
+    scale IS scale
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColor 1.0 1.0 1.0
+          metalness 0.0
+          roughness 0.3
+          transparency 0
+          emissiveColor 0 0 0
+          occlusionMapStrength 1.0
+        }
+        geometry Mesh {
+          url "../models/XL320.stl"
+        }
+        castShadows FALSE
+      }
+    ]
+  }
+}
