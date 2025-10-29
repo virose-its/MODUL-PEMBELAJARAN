@@ -113,43 +113,44 @@ Pengujian dan presentasi akan dilakukan pada: pada 2 November 2025. Pengujian di
     <li> <details>
         <summary> <B>Berdiri</B> </summary>
         https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-berdiri.json#L1-L19
-        <img src="" alt="visual-pose-berdiri">
+        <p align="center"><img src="./assets/berdiri.png" alt="visual-pose-berdiri"></p>
         </details>
     </li>
     <li> <details>
         <summary> <B>Jalan Maju</B> </summary>
         https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-jalan-maju.json#L1-L132
-        <img src="" alt="visual-pose-jalan-maju">
+        <p align="center"><img src="" alt="visual-pose-jalan-maju"></p>
         </details>
     </li>
     <li> <details>
         <summary> <B>Jalan Mundur</B> </summary>
         https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-jalan-mundur.json#L1-L133
-        <img src="" alt="visual-pose-jalan-mundur">
+        <p align="center"><img src="" alt="visual-pose-jalan-mundur">
+        </p>
         </details>
     </li>
     <li> <details>
         <summary> <B>Geser Kanan</B> </summary>
         https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-geser-kanan.json#L1-L48
-        <img src="" alt="visual-pose-geser-kanan">
+        <p align="center"><img src="" alt="visual-pose-geser-kanan"></p>
         </details>
     </li>
     <li> <details>
         <summary> <B>Geser Kiri</B> </summary>
         https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-geser-kiri.json#L1-L48
-        <img src="" alt="visual-pose-geser-kiri">
+        <p align="center"><img src="" alt="visual-pose-geser-kiri"></p>
         </details>
     </li>
     <li> <details>
         <summary> <B>Belok Kanan</B> </summary>
         https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-belok-kanan.json#L1-L48
-        <img src="" alt="visual-pose-belok-kanan">
+        <p align="center"><img src="" alt="visual-pose-belok-kanan"></p>
         </details>
     </li>
     <li> <details>
         <summary> <B>Belok Kiri</B> </summary>
         https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-geser-kiri.json#L1-L48
-        <img src="" alt="visual-pose-belok-kiri">
+        <p align="center"><img src="" alt="visual-pose-belok-kiri"></p>
         </details>
     </li>
   </ul>
