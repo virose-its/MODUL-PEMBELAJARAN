@@ -35,6 +35,21 @@ const char* mac_names[MAC_ADDRESS_TOTAL] = {
     "FARUG",                               // 11
 };
 
+typedef enum {
+    FAUZAN_FIRDAUS = 0,
+    AFRICHA_SEKAR_WANGI,
+    RAFAINA_ERIN_SADIA,
+    ANTONIUS_MICHAEL_YORDANIS_HARTONO,
+    DINDA_SOFI_AZZAHRO,
+    MUHAMMAD_FAHMI_ILMI,
+    DHANISHARA_ZASCHYA_PUTRI_SYAMSUDIN,
+    IRSA_FAIRUZA,
+    REVALINDA_BUNGA_NAYLA_LAKSONO,
+    BISMA,
+    JSON,
+    FARUG,
+} ADDRESS_ASSIGNMENT;
+
 void setup() {
     Serial.begin(115200);
 }
