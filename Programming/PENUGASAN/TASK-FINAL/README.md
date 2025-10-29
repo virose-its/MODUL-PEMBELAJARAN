@@ -61,7 +61,7 @@ Pengujian dan presentasi akan dilakukan pada: pada 2 November 2025. Pengujian di
 <br>
 <details id="receiver" open>
   <summary><b>RECEIVER</b></summary>
-<p>  
+<p>
 
     DESKRIPSI
     Program Receiver berfungsi untuk menerima perintah dari Transmitter dan meneruskannya ke Webots. Program ini akan berjalan di ESP32 yang terhubung dengan robot humanoid.
@@ -70,6 +70,7 @@ Pengujian dan presentasi akan dilakukan pada: pada 2 November 2025. Pengujian di
     - Struktur folder atau program bersifat bebas.
     - Nilai identitas(MAC Address) dari Receiver disesuaikan dengan milik masing-masing.
     - MAC Address sudah dialokasikan pada file main.cpp, boleh dipindah-pindah sesuai kebutuhan tapi tidak boleh dirubah isinya.
+
 </p>
 <br>
 </details id="webots" open>
@@ -87,6 +88,7 @@ Pengujian dan presentasi akan dilakukan pada: pada 2 November 2025. Pengujian di
     KETENTUAN
     - Struktur folder atau program bersifat bebas.
     - controller-fp.cpp hanya bersifat sebagai contoh atau placeholder, boleh dihapus atau dimodifikasi sesuai kebutuhan.
+
 </p>
 <div>
     <h3>Struktur Robot</h3>
@@ -103,19 +105,53 @@ Pengujian dan presentasi akan dilakukan pada: pada 2 November 2025. Pengujian di
   <p>
 
     Pose berjalan dimasukin ke json, untuk setiap pose kalian bisa bikin sendiri atau nunggu aku, bakal tak buatin template dengan struktur json yang sama.
+
   </p>
 
   <h3><b>Pose</b></h3>
   <ul>
     <li> <details>
         <summary> <B>Berdiri</B> </summary>
-            
-         </details>
-    <li>
-    <li>
-    <li>
-    <li>
-    <li>
+        https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-berdiri.json#L1-L19
+        <img src="" alt="visual-pose-berdiri">
+        </details>
+    </li>
+    <li> <details>
+        <summary> <B>Jalan Maju</B> </summary>
+        https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-jalan-maju.json#L1-L132
+        <img src="" alt="visual-pose-jalan-maju">
+        </details>
+    </li>
+    <li> <details>
+        <summary> <B>Jalan Mundur</B> </summary>
+        https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-jalan-mundur.json#L1-L133
+        <img src="" alt="visual-pose-jalan-mundur">
+        </details>
+    </li>
+    <li> <details>
+        <summary> <B>Geser Kanan</B> </summary>
+        https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-geser-kanan.json#L1-L48
+        <img src="" alt="visual-pose-geser-kanan">
+        </details>
+    </li>
+    <li> <details>
+        <summary> <B>Geser Kiri</B> </summary>
+        https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-geser-kiri.json#L1-L48
+        <img src="" alt="visual-pose-geser-kiri">
+        </details>
+    </li>
+    <li> <details>
+        <summary> <B>Belok Kanan</B> </summary>
+        https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-belok-kanan.json#L1-L48
+        <img src="" alt="visual-pose-belok-kanan">
+        </details>
+    </li>
+    <li> <details>
+        <summary> <B>Belok Kiri</B> </summary>
+        https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-geser-kiri.json#L1-L48
+        <img src="" alt="visual-pose-belok-kiri">
+        </details>
+    </li>
   </ul>
 </details>
 <br>
