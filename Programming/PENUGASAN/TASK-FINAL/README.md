@@ -106,6 +106,9 @@ Pengujian dan presentasi akan dilakukan pada: pada 2 November 2025. Pengujian di
 
     Pose berjalan dimasukin ke json, untuk setiap pose kalian bisa bikin sendiri atau nunggu aku, bakal tak buatin template dengan struktur json yang sama.
 
+    Parameter Posisi dan asosiasinya sama device di webots di JSON.
+    [Head, Neck, ShoulderL, ShoulderR, ArmUpperL, ArmUpperR, ArmLowerL, ArmLowerR, PelvYL, PelvYR, PelvL, PelvR, LegUpperL, LegUpperR, LegLowerL, LegLowerR, AnkleL, AnkleR, FootL, FootR]
+
   </p>
 
   <h3><b>Pose</b></h3>
