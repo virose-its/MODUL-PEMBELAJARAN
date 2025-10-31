@@ -89,6 +89,14 @@ Pengujian dan presentasi akan dilakukan pada: pada 2 November 2025. Pengujian di
     - Struktur folder atau program bersifat bebas.
     - controller-fp.cpp hanya bersifat sebagai contoh atau placeholder, boleh dihapus atau dimodifikasi sesuai kebutuhan.
 
+    INPUT
+    W - Jalan Maju
+    S - Jalan Mundur
+    A - Geser Kiri
+    D - Geser Kanan
+    Q - Belok Kiri
+    E - Belok Kanan
+
 </p>
 <div>
     <h3>Struktur Robot</h3>
