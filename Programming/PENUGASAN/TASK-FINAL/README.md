@@ -1,6 +1,6 @@
 # TASK - FINAL
 
-> **DEADLINE SENIN, 2 NOV 2025 PUKUL 18.00**
+> **DEADLINE MINGGU, 2 NOV 2025 PUKUL 18.00**
 
 <p align="center">
 <img src="./assets/image.png" alt="gambar robot humanoid">
