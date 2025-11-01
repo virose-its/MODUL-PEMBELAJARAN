@@ -1,11 +1,23 @@
 from controller import Robot, Keyboard
 import math
+import os
+import sys
 from enum import Enum,auto
+try:
+    import json
+except ImportError:
+    os.system(f"{sys.executable} -m pip install json5")
+    import json
 
 robot = Robot()
 timestep = int(robot.getBasicTimeStep())
 keyboard = Keyboard()
 keyboard.enable(timestep)
+current_time=robot.getTime()
+
+class program(Enum):
+    pose_play=auto()
+    motor_control=auto()
 class mode(Enum):
     Single=auto()
     Pair=auto()
@@ -20,7 +32,10 @@ dict_keys = {
     'E': ord('E'),
     'Q': ord('Q'),
     'C': ord('C'),
-    'Z': ord('Z')
+    'Z': ord('Z'),
+    'T': ord('T'),
+    'R': ord('R'),
+    'F': ord('F')
 }
 keys_debounce={key: False for key in dict_keys.keys()}
 keys_input_step={key: 0 for key in dict_keys.keys()}
@@ -30,8 +45,10 @@ INCREMENT = 0.1
 # Data containers
 motors = {}
 pos_sensors = {}
+pose_group_selection = None
 selection=0
 current_mode=mode.Single
+action_mode=program.motor_control
 
 # Joint list (same order as provided)
 motor_names = [
@@ -60,6 +77,20 @@ motor_names = [
     # Tumit X (miring) 
     "FootL", "FootR"
 ]
+
+pose_folder = "../../poses/"
+pose_files = [
+    "pose-jongkok",
+    "pose-berdiri",
+    "pose-jalan-maju",
+    "pose-jalan-mundur",
+    "pose-geser-kanan",
+    "pose-geser-kiri",
+    "pose-belok-kanan",
+    "pose-belok-kiri"
+]
+
+pose_data = {}
 
 def take_input():
     key = keyboard.getKey()
@@ -92,7 +123,19 @@ def print_joint_list(selection):
                 print(f"[{i:2d}] {name}: {round(pos_sensors[name].getValue(), 3)}")
     get_all_pos()
             
-    
+def adjust_motor(mode, action):
+    if mode == mode.Single:
+        if action == action.Increment:
+            motors[motor_names[selection]].setPosition(pos_sensors[motor_names[selection]].getValue()+INCREMENT)
+        elif action == action.Decrement:
+            motors[motor_names[selection]].setPosition(pos_sensors[motor_names[selection]].getValue()-INCREMENT)
+    if mode == mode.Pair:
+        if action == action.Increment:
+            motors[motor_names[selection]].setPosition(pos_sensors[motor_names[selection]].getValue()+INCREMENT)
+            motors[motor_names[selection+1]].setPosition(pos_sensors[motor_names[selection+1]].getValue()-INCREMENT)
+        elif action == action.Decrement:
+            motors[motor_names[selection]].setPosition(pos_sensors[motor_names[selection]].getValue()-INCREMENT)
+            motors[motor_names[selection+1]].setPosition(pos_sensors[motor_names[selection+1]].getValue()+INCREMENT)
     
 # Initialize motors and sensors
 def setup_motor():
@@ -127,76 +170,237 @@ def setup_motor():
     print(motors)
     print(pos_sensors)
     
-def adjust_motor(mode, action):
-    if mode == mode.Single:
-        if action == action.Increment:
-            motors[motor_names[selection]].setPosition(pos_sensors[motor_names[selection]].getValue()+INCREMENT)
-        elif action == action.Decrement:
-            motors[motor_names[selection]].setPosition(pos_sensors[motor_names[selection]].getValue()-INCREMENT)
-    if mode == mode.Pair:
-        if action == action.Increment:
-            motors[motor_names[selection]].setPosition(pos_sensors[motor_names[selection]].getValue()+INCREMENT)
-            motors[motor_names[selection+1]].setPosition(pos_sensors[motor_names[selection+1]].getValue()-INCREMENT)
-        elif action == action.Decrement:
-            motors[motor_names[selection]].setPosition(pos_sensors[motor_names[selection]].getValue()-INCREMENT)
-            motors[motor_names[selection+1]].setPosition(pos_sensors[motor_names[selection+1]].getValue()+INCREMENT)
-    
-setup_motor()
-# Main loop
-running = True
-while robot.step(timestep) != -1 and running:
-    print('\nControls: W/S select servo, Q/E adjust increment value, A/D increase/decrease, C change mode (Single/Pair), Z zeroing')
-    print_joint_list(selection)
-    keys=take_input()
-    current_time =robot.getTime()
-    
-    if dict_keys['C'] in keys and not keys_debounce['C']:
-        keys_debounce['C']=True
-        current_mode=mode.Pair if current_mode==mode.Single else mode.Single
-        selection=2 if current_mode==mode.Pair else selection
-    elif dict_keys['C'] not in keys:
-        keys_debounce['C']=False
-    
-    if dict_keys['Z'] in keys and not keys_debounce['Z']:
-        keys_debounce['Z']=True
-        if current_mode==mode.Single:
-            motors[motor_names[selection]].setPosition(0.0)
-        elif current_mode==mode.Pair:
-            motors[motor_names[selection]].setPosition(0.0)
-            motors[motor_names[selection+1]].setPosition(0.0)
-    elif dict_keys['Z'] not in keys:
-        keys_debounce['Z']=False
-    
-    if dict_keys['W'] in keys and not keys_debounce['W']:
-        keys_debounce['W']=True
-        selection-= 1 if current_mode==mode.Single else 2
-        selection= selection if selection<len(motor_names) else 0
-        if current_mode==mode.Pair and motor_names[selection] in ["Head","Neck"]:
-            selection=2
-    elif dict_keys['W'] not in keys:
-        keys_debounce['W']=False
-        
-    if dict_keys["S"] in keys and not keys_debounce['S']:
-        keys_debounce['S']=True
-        selection+=1 if current_mode==mode.Single else 2
-        selection= len(motor_names)-1 if selection<=0 else selection
+def load_motion():
+    print("Loading pose files...")
+    for fname in pose_files:
+        fpath = os.path.join(pose_folder, fname + ".json")
         try:
+            with open(fpath, 'r') as f:
+                data = json.load(f)
+                for pose in data['pose_group']:
+                    pose_data[pose['nama']] = {}
+                    for p in pose['pose']:
+                        pose_data[pose['nama']][p['nama']] = p['posisi']
+                print(f"[OK] Loaded pose file: {fpath}")
+        except Exception as e:
+            print(f"[ERROR] Could not load pose file: {fpath}: {e}")
+
+def write_motion(target_pos_list: list, steps: int = 10):
+    """Interpolate from current joint positions to target positions in `steps` steps.
+
+    This function will advance the Webots simulation by calling `robot.step(timestep)`
+    once per interpolation step so the motion executes over multiple simulation steps.
+    Missing sensors/motors are handled gracefully and logged.
+    """
+    # Validate input
+    if not isinstance(target_pos_list, (list, tuple)):
+        print(f"[ERROR] target_pos_list must be a list or tuple, got {type(target_pos_list).__name__}")
+        return
+    if len(target_pos_list) != len(motor_names):
+        print(f"[ERROR] Position list length mismatch: expected {len(motor_names)}, got {len(target_pos_list)}")
+        return
+
+    # Read start positions (prefer sensors, fall back to 0.0)
+    start_positions = []
+    for name in motor_names:
+        if name in pos_sensors:
+            try:
+                start_positions.append(float(pos_sensors[name].getValue()))
+            except Exception:
+                start_positions.append(0.0)
+        else:
+            # sensor missing; warn and use 0.0 as fallback
+            start_positions.append(0.0)
+
+    # Compute per-joint deltas
+    try:
+        target_floats = [float(x) for x in target_pos_list]
+    except Exception as e:
+        print(f"[ERROR] Could not convert target positions to float: {e}")
+        return
+
+    deltas = [target_floats[i] - start_positions[i] for i in range(len(motor_names))]
+
+    # Interpolate and apply positions over `steps` steps
+    for step in range(1, max(1, int(steps)) + 1):
+        frac = step / float(steps)
+        for i, name in enumerate(motor_names):
+            if name not in motors:
+                # Motor not present on this robot; warn once per call
+                if step == 1:
+                    print(f"[WARN] Motor device not found: {name}")
+                continue
+            new_pos = start_positions[i] + deltas[i] * frac
+            try:
+                motors[name].setPosition(new_pos)
+            except Exception as e:
+                print(f"[WARN] Failed to set position for '{name}': {e}")
+
+        # Advance simulation one timestep so motion is visible
+        try:
+            if robot.step(timestep) == -1:
+                # Simulation ended unexpectedly
+                return
+        except Exception as e:
+            print(f"[ERROR] robot.step failed during write_motion: {e}")
+            return
+    # keep_time = 0
+    # if len(target_pos_list) != len(motor_names):
+    #     print(f"[ERROR] Position list length mismatch: expected {len(motor_names)}, got {len(target_pos_list)}")
+    #     return
+
+    # current_pos_list = [pos_sensors[name].getValue() if name in pos_sensors else 0.0 for name in motor_names]
+    # dif_pos_list = [current_pos_list[i] - float(target_pos_list[i]) for i in range(len(motor_names))]
+    # inp_pos_list = [pos_dif / 10.0 for pos_dif in dif_pos_list]
+
+    # for _ in range(10):
+    #     current_time = robot.getTime()
+    #     # if current_time - keep_time > 0.2:
+    #     #     keep_time = current_time
+    #     for i, name in enumerate(motor_names):
+    #         try:
+    #             current_pos_list[i] += inp_pos_list[i]
+    #             pos=current_pos_list[i]
+    #             motors[name].setPosition(pos)
+    #         except Exception as e:
+    #             print(f"[WARN] Failed to set position for '{name}': {e}")
+    
+
+setup_motor()
+load_motion()
+# Main loop
+while robot.step(timestep)!=-1:
+    if (action_mode==program.pose_play):
+        print('\nPose Play Mode. Available Poses:')
+        # print(json.dumps(pose_data, indent=4, ensure_ascii=False))   
+        keys=take_input()
+        current_time =robot.getTime()
+        
+        if pose_group_selection is None:
+            print("Select Pose Group:")
+            for i, pose_group in enumerate(pose_data.keys()):
+                if selection==i:
+                    print(f"[{i}] {pose_group} <== SELECTED")
+                else:
+                    print(f"[{i}] {pose_group}")
+        elif pose_group_selection is not None:
+            print(f"Pose Group: {pose_group_selection}")
+            print("Select Pose:")
+            pose_list = list(pose_data[pose_group_selection].keys())
+            for i, pose_name in enumerate(pose_list):
+                if selection==i:
+                    print(f"[{i}] {pose_name} <== SELECTED")
+                else:
+                    print(f"[{i}] {pose_name}")
+        
+        if dict_keys['T'] in keys and not keys_debounce['T']:
+            keys_debounce['T']=True
+            action_mode=program.motor_control
+        elif dict_keys['T'] not in keys:
+            keys_debounce['T']=False
+            
+        if dict_keys['W'] in keys and not keys_debounce['W']:
+            keys_debounce['W']=True
+            selection-=1
+            selection= selection if selection>=0 else 0
+        elif dict_keys['W'] not in keys:
+            keys_debounce['W']=False
+        
+        if dict_keys["S"] in keys and not keys_debounce['S']:
+            keys_debounce['S']=True
+            selection+=1
+            if pose_group_selection is None:
+                selection= selection if selection<len(pose_data.keys()) else len(pose_data.keys())-1
+            elif pose_group_selection is not None:
+                pose_list = list(pose_data[pose_group_selection].keys())
+                selection= selection if selection<len(pose_list) else len(pose_list)-1
+        elif dict_keys['S'] not in keys:
+            keys_debounce['S']=False
+            
+        if dict_keys['R'] in keys and not keys_debounce['R']:
+            keys_debounce['R']=True
+            if pose_group_selection is None:
+                selection=0
+            elif pose_group_selection is not None:
+                pose_group_selection = None
+                selection=0
+        elif dict_keys['R'] not in keys:
+            keys_debounce['R']=False
+
+        if dict_keys['F'] in keys and not keys_debounce['F']:
+            keys_debounce['F']=True
+            if pose_group_selection is None:
+                pose_group_selection = list(pose_data.keys())[selection]
+                selection=0
+            elif pose_group_selection is not None:
+                pose_list = list(pose_data[pose_group_selection].keys())
+                selected_pose_name = pose_list[selection]
+                print(f"Executing Pose: {selected_pose_name} from Group: {pose_group_selection}")
+                pose_positions = pose_data[pose_group_selection][selected_pose_name]
+                write_motion(pose_positions)
+        elif dict_keys['F'] not in keys:
+            keys_debounce['F']=False
+
+        
+    elif (action_mode==program.motor_control):
+        
+        print('\nControls: W/S select servo, Q/E adjust increment value, A/D increase/decrease, C change mode (Single/Pair), Z zeroing')
+        print_joint_list(selection)
+        keys=take_input()
+        current_time =robot.getTime()
+        if dict_keys['T'] in keys and not keys_debounce['T']:
+            keys_debounce['T']=True
+            action_mode=program.pose_play
+        elif dict_keys['T'] not in keys:
+            keys_debounce['T']=False
+        
+        if dict_keys['C'] in keys and not keys_debounce['C']:
+            keys_debounce['C']=True
+            current_mode=mode.Pair if current_mode==mode.Single else mode.Single
+            selection=2 if current_mode==mode.Pair else selection
+        elif dict_keys['C'] not in keys:
+            keys_debounce['C']=False
+        
+        if dict_keys['Z'] in keys and not keys_debounce['Z']:
+            keys_debounce['Z']=True
+            if current_mode==mode.Single:
+                motors[motor_names[selection]].setPosition(0.0)
+            elif current_mode==mode.Pair:
+                motors[motor_names[selection]].setPosition(0.0)
+                motors[motor_names[selection+1]].setPosition(0.0)
+        elif dict_keys['Z'] not in keys:
+            keys_debounce['Z']=False
+        
+        if dict_keys['W'] in keys and not keys_debounce['W']:
+            keys_debounce['W']=True
+            selection-= 1 if current_mode==mode.Single else 2
+            selection= selection if selection<len(motor_names) else 0
             if current_mode==mode.Pair and motor_names[selection] in ["Head","Neck"]:
                 selection=2
-        except IndexError:
-            selection=18
-    elif dict_keys['S'] not in keys:
-        keys_debounce['S']=False
+        elif dict_keys['W'] not in keys:
+            keys_debounce['W']=False
+            
+        if dict_keys["S"] in keys and not keys_debounce['S']:
+            keys_debounce['S']=True
+            selection+=1 if current_mode==mode.Single else 2
+            selection= len(motor_names)-1 if selection<=0 else selection
+            try:
+                if current_mode==mode.Pair and motor_names[selection] in ["Head","Neck"]:
+                    selection=2
+            except IndexError:
+                selection=18
+        elif dict_keys['S'] not in keys:
+            keys_debounce['S']=False
+            
+        if dict_keys['Q'] in keys and (current_time-keys_input_step['Q'])>keys_input_interval:
+            keys_input_step['Q']=current_time
+            INCREMENT -= 0.01
+        if dict_keys['E'] in keys and current_time-keys_input_step['E']>keys_input_interval:
+            keys_input_step['E']=current_time
+            INCREMENT += 0.01
         
-    if dict_keys['Q'] in keys and (current_time-keys_input_step['Q'])>keys_input_interval:
-        keys_input_step['Q']=current_time
-        INCREMENT -= 0.01
-    if dict_keys['E'] in keys and current_time-keys_input_step['E']>keys_input_interval:
-        keys_input_step['E']=current_time
-        INCREMENT += 0.01
-    
-    if dict_keys['A'] in keys and current_time-keys_input_step['A']>keys_input_interval:
-        adjust_motor(current_mode,action.Decrement)
-    if dict_keys['D'] in keys and current_time-keys_input_step['D']>keys_input_interval:
-        adjust_motor(current_mode,action.Increment)
+        if dict_keys['A'] in keys and current_time-keys_input_step['A']>keys_input_interval:
+            adjust_motor(current_mode,action.Decrement)
+        if dict_keys['D'] in keys and current_time-keys_input_step['D']>keys_input_interval:
+            adjust_motor(current_mode,action.Increment)
         

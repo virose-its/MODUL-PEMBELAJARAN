@@ -102,6 +102,11 @@ Pengujian dan presentasi akan dilakukan pada: pada 2 November 2025. Pengujian di
     <h3>Struktur Robot</h3>
     <a href="https://cyberbotics.com/doc/guide/robotis-op2?version=R2022a#robotisop2hinge2-variant" alt="Dokumentasi Robot">Webots Robotis OP2 Proto</a>
     <img src="./assets/robot.png" alt="gambar robotis op2">
+    
+    Extra:
+    - Gyro: "Gyro"
+    - Accelerometer: "Accelerometer"
+    - Inertial Unit: None (Tambahin sendiri kalo perlu)
 </div>
 </details>
 <br>
@@ -130,26 +135,26 @@ Pengujian dan presentasi akan dilakukan pada: pada 2 November 2025. Pengujian di
     <li> <details>
         <summary> <B>Jalan Maju</B> </summary>
         https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-jalan-maju.json#L1-L132
-        <p align="center"><img src="" alt="visual-pose-jalan-maju"></p>
+        <p align="center"><img src="./assets/visualisasi_jalan_maju.png" alt="visual-pose-jalan-maju"></p>
         </details>
     </li>
     <li> <details>
         <summary> <B>Jalan Mundur</B> </summary>
         https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-jalan-mundur.json#L1-L133
-        <p align="center"><img src="" alt="visual-pose-jalan-mundur">
+        <p align="center"><img src="./assets/visualisasi_jalan_mundur.png" alt="visual-pose-jalan-mundur">
         </p>
         </details>
     </li>
     <li> <details>
         <summary> <B>Geser Kanan</B> </summary>
         https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-geser-kanan.json#L1-L48
-        <p align="center"><img src="" alt="visual-pose-geser-kanan"></p>
+        <p align="center"><img src="./assets/visualisasi_geser_kanan.png" alt="visual-pose-geser-kanan"></p>
         </details>
     </li>
     <li> <details>
         <summary> <B>Geser Kiri</B> </summary>
         https://github.com/virose-its/MODUL-PEMBELAJARAN/blob/a3a8ad769d44f037fd173d8aa18305681baf0f95/Programming/PENUGASAN/TASK-FINAL/Webots/poses/pose-geser-kiri.json#L1-L48
-        <p align="center"><img src="" alt="visual-pose-geser-kiri"></p>
+        <p align="center"><img src="./assets/visualisasi_geser_kiri.png" alt="visual-pose-geser-kiri"></p>
         </details>
     </li>
     <li> <details>
