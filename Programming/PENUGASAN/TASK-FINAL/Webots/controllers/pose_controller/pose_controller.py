@@ -186,21 +186,10 @@ def load_motion():
             print(f"[ERROR] Could not load pose file: {fpath}: {e}")
 
 def write_motion(target_pos_list: list, steps: int = 10):
-    """Interpolate from current joint positions to target positions in `steps` steps.
-
-    This function will advance the Webots simulation by calling `robot.step(timestep)`
-    once per interpolation step so the motion executes over multiple simulation steps.
-    Missing sensors/motors are handled gracefully and logged.
-    """
-    # Validate input
-    if not isinstance(target_pos_list, (list, tuple)):
-        print(f"[ERROR] target_pos_list must be a list or tuple, got {type(target_pos_list).__name__}")
-        return
     if len(target_pos_list) != len(motor_names):
         print(f"[ERROR] Position list length mismatch: expected {len(motor_names)}, got {len(target_pos_list)}")
         return
 
-    # Read start positions (prefer sensors, fall back to 0.0)
     start_positions = []
     for name in motor_names:
         if name in pos_sensors:
@@ -221,49 +210,23 @@ def write_motion(target_pos_list: list, steps: int = 10):
 
     deltas = [target_floats[i] - start_positions[i] for i in range(len(motor_names))]
 
-    # Interpolate and apply positions over `steps` steps
+    # Interpolate 
     for step in range(1, max(1, int(steps)) + 1):
         frac = step / float(steps)
         for i, name in enumerate(motor_names):
-            if name not in motors:
-                # Motor not present on this robot; warn once per call
-                if step == 1:
-                    print(f"[WARN] Motor device not found: {name}")
-                continue
+
             new_pos = start_positions[i] + deltas[i] * frac
             try:
                 motors[name].setPosition(new_pos)
             except Exception as e:
                 print(f"[WARN] Failed to set position for '{name}': {e}")
 
-        # Advance simulation one timestep so motion is visible
         try:
             if robot.step(timestep) == -1:
-                # Simulation ended unexpectedly
                 return
         except Exception as e:
             print(f"[ERROR] robot.step failed during write_motion: {e}")
             return
-    # keep_time = 0
-    # if len(target_pos_list) != len(motor_names):
-    #     print(f"[ERROR] Position list length mismatch: expected {len(motor_names)}, got {len(target_pos_list)}")
-    #     return
-
-    # current_pos_list = [pos_sensors[name].getValue() if name in pos_sensors else 0.0 for name in motor_names]
-    # dif_pos_list = [current_pos_list[i] - float(target_pos_list[i]) for i in range(len(motor_names))]
-    # inp_pos_list = [pos_dif / 10.0 for pos_dif in dif_pos_list]
-
-    # for _ in range(10):
-    #     current_time = robot.getTime()
-    #     # if current_time - keep_time > 0.2:
-    #     #     keep_time = current_time
-    #     for i, name in enumerate(motor_names):
-    #         try:
-    #             current_pos_list[i] += inp_pos_list[i]
-    #             pos=current_pos_list[i]
-    #             motors[name].setPosition(pos)
-    #         except Exception as e:
-    #             print(f"[WARN] Failed to set position for '{name}': {e}")
     
 
 setup_motor()
@@ -271,6 +234,7 @@ load_motion()
 # Main loop
 while robot.step(timestep)!=-1:
     if (action_mode==program.pose_play):
+        print('\nControls: W/S navigate, R Back, F Select/Execute, T Toggle Mode')
         print('\nPose Play Mode. Available Poses:')
         # print(json.dumps(pose_data, indent=4, ensure_ascii=False))   
         keys=take_input()
@@ -344,7 +308,7 @@ while robot.step(timestep)!=-1:
         
     elif (action_mode==program.motor_control):
         
-        print('\nControls: W/S select servo, Q/E adjust increment value, A/D increase/decrease, C change mode (Single/Pair), Z zeroing')
+        print('\nControls: W/S select servo, Q/E adjust increment value, A/D increase/decrease, C change mode (Single/Pair), Z zeroing, T toggle Mode')
         print_joint_list(selection)
         keys=take_input()
         current_time =robot.getTime()
